@@ -16,21 +16,22 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
-    const { name, email, password } = signUpDto;
+  async signUp(signUpDto: SignUpDto) {
+    const { prenom, nom, matricule, email, password } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await this.userModel.create({
-      name,
+      prenom,
+      nom,
+      matricule,
       email,
       password: hashedPassword,
     });
 
-    const token = this.jwtService.sign({ id: user._id });
-
-    return { token };
+    return user;
   }
+
 
   async login(loginDto: LoginDto): Promise<{ token: string }> {
     const { email, password } = loginDto;
@@ -38,13 +39,13 @@ export class AuthService {
     const user = await this.userModel.findOne({ email });
 
     if (!user) {
-      throw new UnauthorizedException('Invalid email');
+      throw new UnauthorizedException("Cet email n'existe pas");
     }
 
     const isPasswordMatched = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatched) {
-      throw new UnauthorizedException('Invalid password');
+      throw new UnauthorizedException('Mot de passe invalide');
     }
 
     const token = this.jwtService.sign({ id: user._id });

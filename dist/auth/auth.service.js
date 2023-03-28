@@ -25,25 +25,26 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
     }
     async signUp(signUpDto) {
-        const { name, email, password } = signUpDto;
+        const { prenom, nom, matricule, email, password } = signUpDto;
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await this.userModel.create({
-            name,
+            prenom,
+            nom,
+            matricule,
             email,
             password: hashedPassword,
         });
-        const token = this.jwtService.sign({ id: user._id });
-        return { token };
+        return user;
     }
     async login(loginDto) {
         const { email, password } = loginDto;
         const user = await this.userModel.findOne({ email });
         if (!user) {
-            throw new common_1.UnauthorizedException('Invalid email');
+            throw new common_1.UnauthorizedException("Cet email n'existe pas");
         }
         const isPasswordMatched = await bcrypt.compare(password, user.password);
         if (!isPasswordMatched) {
-            throw new common_1.UnauthorizedException('Invalid password');
+            throw new common_1.UnauthorizedException('Mot de passe invalide');
         }
         const token = this.jwtService.sign({ id: user._id });
         return { token };
@@ -51,6 +52,22 @@ let AuthService = class AuthService {
     async findAll() {
         const books = await this.userModel.find();
         return books;
+    }
+    async findById(id) {
+        const book = await this.userModel.findById(id);
+        if (!book) {
+            throw new common_1.NotFoundException('Book not found.');
+        }
+        return book;
+    }
+    async updateById(id, user) {
+        return await this.userModel.findByIdAndUpdate(id, user, {
+            new: true,
+            runValidators: true,
+        });
+    }
+    async deleteById(id) {
+        return await this.userModel.findByIdAndDelete(id);
     }
 };
 AuthService = __decorate([

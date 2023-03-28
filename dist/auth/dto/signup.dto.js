@@ -17,10 +17,20 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], SignUpDto.prototype, "name", void 0);
+], SignUpDto.prototype, "prenom", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsEmail)({}, { message: 'Please enter correct email' }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], SignUpDto.prototype, "nom", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], SignUpDto.prototype, "matricule", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEmail)({}, { message: 'Svp entrer un bon email' }),
     __metadata("design:type", String)
 ], SignUpDto.prototype, "email", void 0);
 __decorate([

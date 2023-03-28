@@ -21,13 +21,12 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
+/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Document } from 'mongoose';
-export declare class User extends Document {
-    prenom: string;
-    nom: string;
-    matricule: string;
-    email: string;
-    password: string;
+export declare class Climat {
+    temperature: string;
+    humid_serre: string;
+    humid_sol: string;
+    luminosite: string;
 }
-export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, User>;
+export declare const ClimatSchema: import("mongoose").Schema<Climat, import("mongoose").Model<Climat, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Climat>;
